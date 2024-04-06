@@ -24,8 +24,8 @@ class ScheduledTask(Task):
     @property
     def has_scheduled_time(self) -> bool:
         """If task's scheduled time is 00:00:00, it has been scheduled for a
-           particular day but not for a specific time. If this is the case,
-           return False."""
+        particular day but not for a specific time. If this is the case,
+        return False."""
         start = self.scheduled_start_datetime
         if start:
             if (
@@ -126,7 +126,7 @@ class ScheduledTask(Task):
     @property
     def overdue(self) -> bool:
         """If the task is overdue (current time is past end time),
-           return True. Else, return False."""
+        return True. Else, return False."""
         if not self.scheduled_start_datetime:
             return False
 

@@ -8,7 +8,7 @@ from taskschedule.scheduled_task import ScheduledTask, ScheduledTaskQuerySet
 
 class PatchedTaskWarrior(TaskWarrior):
     """A patched version of TaskWarrior which returns a custom queryset with a custom
-       Task class to provide extra functionality."""
+    Task class to provide extra functionality."""
 
     def __init__(self, *args, **kwargs):
         super(PatchedTaskWarrior, self).__init__(*args, **kwargs)

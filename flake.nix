@@ -59,8 +59,8 @@
           pre-commit.hooks = {
             alejandra.enable = true;
             black.enable = true;
-            flake8.enable = true;
             mypy.enable = true;
+            ruff.enable = true;
             check-toml.enable = true;
             taplo.enable = true;
           };

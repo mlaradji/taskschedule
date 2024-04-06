@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 @pytest.fixture(scope="module")
 def tw():
     """Create a PatchedTaskWarrior instance with a temporary .taskrc and data
-       location. Remove the temporary data after testing is finished."""
+    location. Remove the temporary data after testing is finished."""
 
     taskrc_path = "tests/test-data/.taskrc"
     task_dir_path = "tests/test-data/.task"

@@ -6,9 +6,9 @@ import subprocess
 def run_hooks(hook_type, data={"id": -1, "description": "none"}):
     """Run hook scripts in the hooks directory.
 
-       :param hook_type: the hook type to run.
-                         valid values: 'on-progress'
-       :param data: the JSON data to pass as a string to stdin."""
+    :param hook_type: the hook type to run.
+                      valid values: 'on-progress'
+    :param data: the JSON data to pass as a string to stdin."""
 
     home = os.path.expanduser("~")
 
@@ -29,4 +29,4 @@ def run_hooks(hook_type, data={"id": -1, "description": "none"}):
                 stderr=subprocess.PIPE,
                 input=input_data,
             )
-            # print(result.stdout.decode('utf-8'))
+            print(result.stdout.decode("utf-8"))

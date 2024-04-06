@@ -499,8 +499,8 @@ class Screen:
                 (
                     current_line,
                     offsets[3] + i,
-                    timebox.get("char"),
-                    timebox.get("color"),
+                    timebox.get("char", ""),
+                    timebox.get("color", 0),
                 )
             )
 
@@ -559,7 +559,6 @@ class Screen:
 
         time_slots = self.schedule.get_time_slots()
         for day in time_slots:
-
             # Draw divider if day has tasks
             day_has_tasks = False
             for hour in time_slots[day]:

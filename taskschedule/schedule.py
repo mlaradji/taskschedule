@@ -33,7 +33,7 @@ class TaskDirDoesNotExistError(Exception):
 
 class Schedule:
     """This class provides methods to format tasks and display them in
-       a schedule report."""
+    a schedule report."""
 
     def __init__(
         self,
@@ -49,7 +49,7 @@ class Schedule:
         self.timeboxed_task: Optional[ScheduledTask] = None
 
     def get_timebox_estimate_count(self) -> int:
-        """"Return today's estimated timebox count."""
+        """ "Return today's estimated timebox count."""
         total = 0
         for task in self.tasks:
             if task["tb_estimate"]:
@@ -57,7 +57,7 @@ class Schedule:
         return total
 
     def get_timebox_real_count(self) -> int:
-        """"Return today's real timebox count."""
+        """ "Return today's real timebox count."""
         total = 0
         for task in self.tasks:
             if task["tb_real"]:
@@ -66,7 +66,7 @@ class Schedule:
 
     def get_active_timeboxed_task(self) -> Optional[ScheduledTask]:
         """If a timeboxed task is currently active, return it. Otherwise,
-           return None."""
+        return None."""
         for task in self.tasks:
             if task.active and task["tb_estimate"]:
                 self.timeboxed_task = task
@@ -79,7 +79,8 @@ class Schedule:
     def stop_active_timeboxed_task(self):
         """Stop the current timeboxed task."""
         timeboxed_task = self.get_active_timeboxed_task()
-        timeboxed_task.stop()
+        if timeboxed_task is not None:
+            timeboxed_task.stop()
         self.timeboxed_task = None
 
     def clear_cache(self):
@@ -132,7 +133,7 @@ class Schedule:
 
     def get_max_length(self, key: str) -> int:
         """Return the max string length of a given key's value of all tasks
-           in the schedule. Useful for determining column widths.
+        in the schedule. Useful for determining column widths.
         """
         max_length = 0
         for task in self.tasks:
@@ -144,7 +145,7 @@ class Schedule:
 
     def get_column_offsets(self) -> List[int]:
         """Return the offsets for each column in the schedule for rendering
-           a table."""
+        a table."""
         offsets = [0, 5]  # Hour, glyph
         offsets.append(5 + self.get_max_length("id") + 1)  # ID
         offsets.append(offsets[2] + 12)  # Time
@@ -160,7 +161,7 @@ class Schedule:
 
     def get_next_task(self, task: ScheduledTask) -> Optional[ScheduledTask]:
         """Get the next scheduled task after the given task. If there is no
-           next scheduled task, return None."""
+        next scheduled task, return None."""
         next_tasks = []
         for task_ in self.tasks:
             if task_.scheduled_start_datetime > task.scheduled_start_datetime:

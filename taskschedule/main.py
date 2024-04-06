@@ -1,4 +1,6 @@
 """Command line interface of taskschedule"""
+from typing import Union
+
 import argparse
 import os
 import shutil
@@ -24,6 +26,8 @@ from taskschedule.utils import calculate_datetime
 
 
 class Main:
+    notifier: Union[None, Notifier]
+
     def __init__(self, argv):
         self.home_dir = os.path.expanduser("~")
 
@@ -181,7 +185,7 @@ class Main:
 
     def main(self):
         """Initialize the screen and notifier, and start the main loop of
-           the interface."""
+        the interface."""
 
         if self.show_notifications:
             self.notifier = Notifier(self.backend)
