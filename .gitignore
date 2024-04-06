@@ -15,3 +15,7 @@ tests/test_data/.taskrc
 .python-version
 *.swp
 .idea
+#- devenv -#
+.pre-commit-config.yaml
+.devenv
+.direnv

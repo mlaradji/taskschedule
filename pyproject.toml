@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "taskschedule"
+version = "1.0.0"
+description = "A time schedule report for taskwarrior."
+authors = [
+  "Nicole Nisters <n.nisters@pm.me>",
+  "Leonard",
+  "Mohamed Laradji <mlaradji@proton.me>",
+]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/nnist/taskschedule"
+repository = "https://github.com/mlaradji/taskschedule"
+keywords = ["taskwarrior", "NixOS", "flake"]
+classifiers = [
+  "Environment :: Console :: Curses",
+  "Development Status :: 2 - Pre-Alpha",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: MacOS",
+  "Operating System :: POSIX :: BSD",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.5",
+  "Programming Language :: Python :: 3.6",
+  "Programming Language :: Python :: 3.7",
+  "Topic :: System :: Shells",
+  "Topic :: Terminals",
+]
+
+[tool.poetry.scripts]
+taskschedule = 'scripts/taskschedule'
+
+[tool.poetry.dependencies]
+python = "^3.11"
+tasklib = "^2.5.1"
+isodate = "^0.6.1"
+cached-property = "^1.5.2"
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.9.0"
+pytest-cov = "^5.0.0"
+black = "^24.3.0"
+flake8 = "^7.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_configs = true
+mypy_path = "taskschedule"
+check_untyped_defs = true
+ignore_missing_imports = true
