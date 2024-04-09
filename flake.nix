@@ -8,6 +8,10 @@
     nix2container.url = "github:nlewo/nix2container";
     nix2container.inputs.nixpkgs.follows = "nixpkgs";
     mk-shell-bin.url = "github:rrbutani/nix-mk-shell-bin";
+    poetry2nix = {
+      url = "github:nix-community/poetry2nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -38,7 +42,7 @@
         packages.devenv-up = self'.devShells.default.config.procfileScript;
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = pkgs.hello;
+        packages.default = (inputs.poetry2nix.lib.mkPoetry2Nix {inherit pkgs;}).mkPoetryApplication {projectDir = ./.;};
 
         devenv.shells.default = {
           name = "taskschedule";
@@ -50,7 +54,10 @@
           ];
 
           # https://devenv.sh/reference/options/
-          packages = [config.packages.default];
+          packages = [
+            config.packages.default
+            pkgs.hello
+          ];
 
           enterShell = ''
             hello

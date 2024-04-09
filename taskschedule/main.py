@@ -275,3 +275,7 @@ class Main:
 
             if self.refresh_rate < 0:
                 break
+
+
+def run():
+    Main(sys.argv[1:]).main()
