@@ -1,0 +1,2 @@
+class TaskWarriorException(Exception):
+    pass

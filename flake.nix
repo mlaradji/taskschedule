@@ -42,7 +42,7 @@
         packages.devenv-up = self'.devShells.default.config.procfileScript;
 
         # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = (inputs.poetry2nix.lib.mkPoetry2Nix {inherit pkgs;}).mkPoetryApplication {projectDir = ./.;};
+        #        packages.default = (inputs.poetry2nix.lib.mkPoetry2Nix {inherit pkgs;}).mkPoetryApplication {projectDir = ./.;};
 
         devenv.shells.default = {
           name = "taskschedule";
@@ -55,7 +55,7 @@
 
           # https://devenv.sh/reference/options/
           packages = [
-            config.packages.default
+            #            config.packages.default
             pkgs.hello
           ];
 
@@ -67,6 +67,7 @@
             alejandra.enable = true;
             black.enable = true;
             mypy.enable = true;
+            mypy.package = pkgs.python3.withPackages (python-pkgs: with python-pkgs; [mypy pydantic sqlmodel fastapi]);
             ruff.enable = true;
             check-toml.enable = true;
             taplo.enable = true;
