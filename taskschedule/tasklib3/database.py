@@ -32,15 +32,23 @@ class Priority(str, Enum):
 class TaskData(SQLModel, table=False):  # type: ignore[call-arg]
     entry: Optional[datetime] = None
     start: Optional[datetime] = None
+    end: Optional[datetime] = None
     modified: Optional[datetime] = None
+    scheduled: Optional[datetime] = None
+    recur: Optional[str] = None
+    mask: Optional[str] = None
+    imask: Optional[str] = None
+    parent: Optional[UUID] = None
     wait: Optional[datetime] = None
     due: Optional[datetime] = None
+    until: Optional[datetime] = None
     status: Status = Status.Pending
     description: str = Field(default_factory=str)
     priority: Optional[Priority] = None
     project: Optional[str] = None
     tags: CommaSeparatedList = Field(default_factory=list)
     depends: CommaSeparatedList = Field(default_factory=list)
+    annotations: Optional[str] = None
 
 
 class Task(SQLModel, table=True):  # type: ignore[call-arg]
@@ -97,12 +105,19 @@ class TaskWarrior:
 
         config: Dict[str, str] = dict()
 
-        for line in raw_output:
+        footer = raw_output.pop()
+        if footer == "Some of your .taskrc variables differ from the default values.":
+            logger.debug(footer)
+        else:
+            raw_output.append(footer)
+
+        for line in raw_output[3:]:  # skip header
             match = CONFIG_REGEX.match(line)
             if match:
-                config[match.group("key")] = match.group("value").strip()
+                key = match.group("key")
+                value = match.group("value").strip()
+                config[key] = value
 
-        # Memoize the config dict
         return deepfreeze(config)
 
     def _get_task_command(self) -> List[str]:
@@ -149,7 +164,7 @@ class TaskWarrior:
             error_msg += "\nCommand used: " + " ".join(command_args)
             raise TaskWarriorException(error_msg)
 
-        logger.trace(
+        logger.debug(
             "`task` command executed.",
             stdout=stdout.rstrip(),
             stderror=stderr.rstrip(),
