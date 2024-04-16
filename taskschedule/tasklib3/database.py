@@ -1,9 +1,12 @@
 from typing import Optional, Sequence, Dict, List
-from taskschedule.tasklib3.sqlpydantic import pydantic_column_type, CommaSeparatedList
+from taskschedule.tasklib3.sqlpydantic import (
+    pydantic_column_type,
+    CommaSeparatedList,
+    Epoch,
+)
 from taskschedule.tasklib3.exceptions import TaskWarriorException
 from sqlmodel import Field, Session, SQLModel, create_engine, select, Column
 from uuid import UUID, uuid4
-from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from frozendict import frozendict, deepfreeze
@@ -30,18 +33,18 @@ class Priority(str, Enum):
 
 
 class TaskData(SQLModel, table=False):  # type: ignore[call-arg]
-    entry: Optional[datetime] = None
-    start: Optional[datetime] = None
-    end: Optional[datetime] = None
-    modified: Optional[datetime] = None
-    scheduled: Optional[datetime] = None
+    entry: Optional[Epoch] = None
+    start: Optional[Epoch] = None
+    end: Optional[Epoch] = None
+    modified: Optional[Epoch] = None
+    scheduled: Optional[Epoch] = None
     recur: Optional[str] = None
     mask: Optional[str] = None
     imask: Optional[str] = None
     parent: Optional[UUID] = None
-    wait: Optional[datetime] = None
-    due: Optional[datetime] = None
-    until: Optional[datetime] = None
+    wait: Optional[Epoch] = None
+    due: Optional[Epoch] = None
+    until: Optional[Epoch] = None
     status: Status = Status.Pending
     description: str = Field(default_factory=str)
     priority: Optional[Priority] = None

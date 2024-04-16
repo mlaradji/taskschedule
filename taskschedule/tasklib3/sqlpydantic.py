@@ -9,6 +9,7 @@ from pydantic import (
 )
 from fastapi.encoders import jsonable_encoder
 from pydantic._internal._model_construction import ModelMetaclass
+from datetime import datetime
 import json
 
 T = TypeVar("T")
@@ -17,6 +18,13 @@ CommaSeparatedList = Annotated[
     List[str],
     BeforeValidator(lambda x: x.split(",")),
     PlainSerializer(lambda x: ",".join(x), return_type=str),
+    WithJsonSchema({"type": "string"}, mode="serialization"),
+]
+
+Epoch = Annotated[
+    datetime,
+    BeforeValidator(lambda x: datetime.fromtimestamp(int(x))),
+    PlainSerializer(lambda x: x.timestamp(), return_type=str),
     WithJsonSchema({"type": "string"}, mode="serialization"),
 ]
 
