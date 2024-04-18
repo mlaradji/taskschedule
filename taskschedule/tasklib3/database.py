@@ -4,7 +4,7 @@ from taskschedule.tasklib3.sqlpydantic import (
     CommaSeparatedList,
     Epoch,
 )
-from taskschedule.tasklib3.exceptions import TaskWarriorException
+from taskschedule.tasklib3.exceptions import TaskWarriorException, TaskWarriorNotFound
 from sqlmodel import Field, Session, SQLModel, create_engine, select, Column
 from uuid import UUID, uuid4
 from enum import Enum
@@ -17,6 +17,7 @@ from functools import cached_property
 import re
 import subprocess
 import os
+import shutil
 
 
 class Status(str, Enum):
@@ -82,7 +83,14 @@ class TaskWarrior:
         filter_obj=True,
         task_command: str = "task",
     ):
+        # Check if `task` exists:
+        task_path = shutil.which(task_command)
+        if task_path is not None:
+            logger.trace("task command found at {}", task_path)
+        else:
+            raise TaskWarriorNotFound(task_command)
         self.task_command = task_command
+
         self.overrides = {
             "confirmation": "no",
             "dependency.confirmation": "no",  # See TW-1483 or taskrc man page
