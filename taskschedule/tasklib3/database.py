@@ -10,6 +10,7 @@ from uuid import UUID, uuid4
 from enum import Enum
 from pathlib import Path
 from frozendict import frozendict, deepfreeze
+from semver import Version
 
 from loguru import logger
 from functools import cached_property
@@ -100,6 +101,10 @@ class TaskWarrior:
             self.tasks = session.exec(statement).all()
 
     @cached_property
+    def version(self) -> Version:
+        return Version.parse("".join(self.execute_command(["--version"])))
+
+    @cached_property
     def config(self) -> frozendict[str, ConfigOption]:
         # If not, fetch the config using the 'show' command
         raw_output = self.execute_command(
@@ -134,8 +139,8 @@ class TaskWarrior:
         if config_override is not None:
             overrides = self.overrides.copy()
             overrides.update(config_override or dict())
-        for item in overrides.items():
-            command_args.append("rc.{0}={1}".format(*item))
+            for item in overrides.items():
+                command_args.append("rc.{0}={1}".format(*item))
         command_args.extend(
             [x.decode("utf-8") if isinstance(x, bytes) else str(x) for x in args]
         )
@@ -181,3 +186,4 @@ if __name__ == "__main__":
     tw = TaskWarrior(Path("/home/mohamed/.local/share/task"))
     print(tw.tasks[0].data)
     print(tw.config)
+    print(tw.version)
