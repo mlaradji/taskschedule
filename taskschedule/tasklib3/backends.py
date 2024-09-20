@@ -138,10 +138,3 @@ class TaskWarrior:
         )
 
         return stdout.rstrip().split("\n")
-
-
-if __name__ == "__main__":
-    tw = TaskWarrior(Path("/home/mohamed/.local/share/task"))
-    print(tw.tasks[0].data)
-    print(tw.config)
-    print(tw.version)
